@@ -1,0 +1,68 @@
+SmartCafe Assistant
+===================
+Object-Oriented Programming in Python - Team Project - SmartCafe Assistant OOP Based Console Application
+
+
+Overview
+--------
+SmartCafe Assistant is a Python-based console chatbot for SmartCafe.
+It answers common user questions about drinks, ingredients, nutrition, and opening hours using local data from `cafe_data.json`.
+
+How it Works
+------------
+The system uses two classes:
+- `ChatBotAgent`:
+        Handles user input
+        analysis question patterns
+        delegates queries.
+- `ResearchAgent`:
+        load the data from the file.
+        get_ingredients
+        get_nutritional_info
+        get_working_hours
+        get_available_drinks
+
+Regex Intent Recognition
+------------------------
+Regex is used to detect the user's question intent:
+
+1. **Ingredients**: Matches "What’s in a (drink)?"  
+   → Extracts drink name and returns ingredient list.
+
+2. **Nutrition**: Matches "How many calories in (drink)?"  
+   → Returns calorie and sugar content.
+
+3. **Hours**: Matches "When are you open on (day)?"  
+   → Returns opening time for the specified day.
+
+4. **Available Drinks**: Matches "What drinks do you have?"  
+   → Lists all drinks in `cafe_data.json`.
+
+Example Interactions
+--------------------
+User:: What's in a Mocha?
+Assistant:: Mocha ingredients: espresso, chocolate syrup, steamed milk
+
+User:: How many calories in Hot Chocolate?
+Assistant:: Hot Chocolate has 250 calories and 30g sugar.
+
+User:: When are you open on Friday?
+Assistant:: On Friday, we're open from 8:00 AM - 10:00 PM.
+
+User:: What drinks do you have?
+Assistant:: We offer the following drinks: Caramel Latte, Matcha Latte, ...
+
+User:: how much for mocha
+Assistant:: The price of mocha is $4.0.
+
+Run Instructions
+----------------
+1. Ensure `smartcafe_assistant.py` and `cafe_data.json` are in the same folder.
+2. Run the program: python smartcafe_assistant.py
+
+
+Requirements
+------------
+- Python 3.6 or later
+- No external libraries needed
+
