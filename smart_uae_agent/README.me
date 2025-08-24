@@ -1,0 +1,122 @@
+Smart UAE Agent
+================
+
+A LangChain-based assistant for UAE tourism that integrates a JSON knowledge base, prayer time lookup, budget estimates, and itinerary suggestions using Gemini.
+
+Deliverables
+------------
+- `smart_uae_agent.py` — main Python script
+- `smart_uae_agent_demo.ipynb` — Jupyter notebook for testing
+- `README.txt` — this file
+
+Tech Stack
+----------
+- Python 3.x
+- LangChain (latest stable)
+- Gemini via `langchain-google-genai`
+- Tools:
+  - **UAEKnowledgeSearchTool** — reads `uae_knowledge.json`
+  - **PrayerTimeTool** — Aladhan API with offline fallback
+  - **TripBudgetPlanner** — coarse AED estimates
+  - *(Optional)* DuckDuckGo search if `langchain_community` is available
+- `datetime`, `requests`
+
+Setup
+-----
+1. **Python environment** (recommended)
+   ```bash
+   python -m venv .venv && source .venv/bin/activate  # on Windows: .venv\Scripts\activate
+   pip install -U langchain langchain-google-genai langchain-community requests
+   ```
+
+2. **API Key** for Gemini (choose _one_ env var name):
+   ```bash
+   export GOOGLE_API_KEY="YOUR_GEMINI_API_KEY"
+   # or
+   export GENAI_API_KEY="YOUR_GEMINI_API_KEY"
+   ```
+
+   > Course key provided: `AIzaSyAPE5ghLI8hCkaFfVi2bOVEd_W50iITu10`
+   > (Prefer using env vars instead of hardcoding.)
+
+3. **Run the agent**:
+   ```bash
+   python smart_uae_agent.py --knowledge ./uae_knowledge.json --verbose
+   ```
+
+4. **Notebook demo**: open `smart_uae_agent_demo.ipynb` and run all cells.
+
+Custom Tools
+------------
+**UAEKnowledgeSearchTool** (`uae_knowledge_search`)
+- Loads `uae_knowledge.json` and returns attractions/cultural tips/general info.
+- Example queries:
+  - "List top cultural tips for visiting the UAE"
+  - "What can I do in Dubai?"
+  - "What's the best thing to do in Ras Al Khaimah?"
+
+**PrayerTimeTool** (`prayer_time_lookup`)
+- Inputs: city, optional date (YYYY-MM-DD).
+- Output: Fajr, Dhuhr, Asr, Maghrib, Isha.
+- Uses the Aladhan API, falls back to static times if offline.
+
+**TripBudgetPlanner** (`trip_budget_planner`)
+- Inputs: city, days, travel_style (`budget|standard|luxury`)
+- Rates per day: 150 / 400 / 1000 AED. Returns total and breakdown.
+
+LLM Tourist Recommendations
+---------------------------
+- Agent uses Gemini to produce itineraries for queries like:
+  - "What can I do in Dubai?"
+  - "Plan my 5-day trip to the UAE"
+- **Constraint:** Itineraries are restricted to attractions contained in `uae_knowledge.json`. If unsure, the agent calls `uae_knowledge_search` automatically.
+
+Memory
+------
+- `ConversationBufferMemory` preserves context (e.g., previously mentioned city or trip duration) across turns.
+
+Latency Target
+--------------
+- The script times responses and notes if they exceed 5 seconds. Using `gemini-1.5-flash` and `max_iterations=3` keeps responses snappy.
+
+Example Prompts
+---------------
+- "What’s the best time to visit the UAE?"
+- "What can I do in Dubai for 2 days?"
+- "Give me prayer times in Abu Dhabi for 2025-08-24"
+- "Estimate a 5-day luxury trip in Dubai."
+- "List cultural tips for Sharjah."
+
+Expected Outputs (Samples)
+--------------------------
+- **3-day Abu Dhabi plan**
+  - Day 1 – Sheikh Zayed Grand Mosque & Heritage Village
+  - Day 2 – Louvre Abu Dhabi & Corniche Beach
+  - Day 3 – Qasr Al Watan & Desert Safari (cultural dinner)
+
+- **Budget**: `{"city":"Dubai","days":5,"style":"budget","rate_per_day_aed":150,"estimated_total_aed":750}`
+
+- **Prayer times**: `{"city":"Abu Dhabi","date":"2025-08-24","prayer_times":{"Fajr":"04:30","Dhuhr":"12:30","Asr":"16:00","Maghrib":"18:53","Isha":"20:23"}}` *(example)*
+
+Design Notes
+------------
+- Agent type: `chat-zero-shot-react-description` with tools.
+- The knowledge JSON is embedded into the system prompt so itineraries can be generated **without** tool calls while still avoiding hallucinations.
+- For facts beyond the JSON, the DuckDuckGo tool (if installed) can be used explicitly by the agent.
+- Modular, reusable tool classes with Pydantic schemas and docstrings.
+
+Demo Video (How-To)
+-------------------
+Record a quick screencast (≤ 2 min) showing:
+1) Asking about attractions in a city (e.g., "What can I do in Dubai?").
+2) Requesting a 5-day trip budget (e.g., "Plan costs for 5 days in Dubai, standard").
+3) Getting prayer times for a city and date.
+4) Receiving a 3-day itinerary for Abu Dhabi.
+Tip: Use your terminal running `smart_uae_agent.py --verbose` and briefly show `smart_uae_agent_demo.ipynb` outputs.
+
+Troubleshooting
+---------------
+- **ImportError for ChatGoogleGenerativeAI**: `pip install -U langchain-google-genai`
+- **No API key**: Set `GOOGLE_API_KEY` or `GENAI_API_KEY`.
+- **Slow replies**: Use `--model gemini-1.5-flash` and avoid verbose logging.
+- **Aladhan blocked**: The tool falls back to static times.

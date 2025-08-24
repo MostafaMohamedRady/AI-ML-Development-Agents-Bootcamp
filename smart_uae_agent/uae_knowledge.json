@@ -1,0 +1,74 @@
+{
+    "cities": {
+        "Dubai": {
+            "top_attractions": [
+                "Burj Khalifa",
+                "The Dubai Mall",
+                "Dubai Marina",
+                "Palm Jumeirah",
+                "Dubai Creek",
+                "Desert Safari"
+            ],
+            "cultural_tips": [
+                "Dress modestly in public places.",
+                "Public displays of affection are discouraged.",
+                "Friday is a day of prayer and many businesses open late.",
+                "Respect Ramadan customs if visiting during the holy month."
+            ]
+        },
+        "Abu Dhabi": {
+            "top_attractions": [
+                "Sheikh Zayed Grand Mosque",
+                "Louvre Abu Dhabi",
+                "Qasr Al Watan",
+                "Corniche Beach",
+                "Ferrari World"
+            ],
+            "cultural_tips": [
+                "Remove shoes before entering mosques.",
+                "Women should wear headscarves in religious sites.",
+                "Photography is restricted in certain government areas.",
+                "Taxis are safe and regulated."
+            ]
+        },
+        "Sharjah": {
+            "top_attractions": [
+                "Sharjah Museum of Islamic Civilization",
+                "Al Noor Island",
+                "Sharjah Art Museum",
+                "Al Qasba"
+            ],
+            "cultural_tips": [
+                "Sharjah is more conservative; follow dress codes strictly.",
+                "Alcohol is not served in most places.",
+                "Respect cultural spaces and artistic exhibits."
+            ]
+        }
+    },
+    "general_info": {
+        "currency": "AED (Dirham)",
+        "languages": [
+            "Arabic (official)",
+            "English (widely spoken)"
+        ],
+        "best_time_to_visit": "November to March",
+        "transportation": "Taxis, metro (in Dubai), ride-sharing apps"
+    },
+    "activities": {
+        "adventure": [
+            "Skydiving in Dubai",
+            "Dune bashing and desert safari",
+            "Jet skiing at JBR Beach"
+        ],
+        "culture": [
+            "Visit Al Fahidi Historical Neighborhood",
+            "Attend a falconry show",
+            "Explore the Dubai Museum"
+        ],
+        "relaxation": [
+            "Beach resorts in Ras Al Khaimah",
+            "Spa day at Atlantis The Palm",
+            "Sunset cruise at Dubai Marina"
+        ]
+    }
+}
