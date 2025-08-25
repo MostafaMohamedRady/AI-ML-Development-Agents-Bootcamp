@@ -1,3 +1,15 @@
+# tools.py
+"""
+Custom tools for the Smart UAE Agent.
+Includes:
+- search_knowledge: query `uae_knowledge.json` for facts/attractions/cultural tips
+- prayer_times: get daily prayer times via Aladhan API (with offline fallback)
+- estimate_budget: simple per-day AED trip cost
+- set_preferences / get_preferences: demo user-preferences store
+- web_search: optional DuckDuckGo search (if package available)
+All tools return JSON strings so the agent can parse easily.
+"""
+
 import json
 import os
 import math
